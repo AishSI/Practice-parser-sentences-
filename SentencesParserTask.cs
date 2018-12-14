@@ -39,6 +39,7 @@ namespace TextAnalysis
 				else
 					builder.Append(' ');
 			}
+
 			return builder;
 		}
 	}
