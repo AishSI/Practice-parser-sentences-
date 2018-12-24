@@ -9,38 +9,30 @@ namespace TextAnalysis
 	{
 		public static List<List<string>> ParseSentences(string text)
 		{
-			var listListSentences = new List<List<string>>();
-
 			var listSentences = text.ToLower().Split(new char[] { '.', '!', '?', ';', ':', '(', ')' })
 				.Select(tag => tag.Trim())
 				.Where(tag => !string.IsNullOrEmpty(tag))
 				.ToList();
+			return GoListListSentences(listSentences);
+		}
 
-			foreach (var sentence in listSentences)
-			{
-				var words = SenteceToWords(sentence).ToString()
-					.Split(new char[] { ' ' })
-					.Select(tag => tag.Trim())
-					.Where(tag => !string.IsNullOrEmpty(tag))
-					.ToList();
-				if (words.Count > 0)
-					listListSentences.Add(words);
-			}
+		//составляем список списков: по каждому предложению отдельный список слов
+		public static List<List<string>> GoListListSentences(List<string> listSentences)
+		{
+			var listListSentences = listSentences
+			.Select(sentences => SenteceToWords(sentences)
+			.Split(new char[] { ' ' })
+			.Select(tag => tag.Trim())
+			.Where(tag => !string.IsNullOrEmpty(tag))
+			.ToList()).ToList();
 			return listListSentences;
 		}
 
-		public static StringBuilder SenteceToWords(string sentence)
+		// убираем в предложениях все небуквенные символы оставляем только слова (включая символ ' ) и пробелы
+		public static string SenteceToWords(string sentence)
 		{
-			StringBuilder builder = new StringBuilder();
-			foreach (var letter in sentence)
-			{
-				if ((char.IsLetter(letter) || letter == '\''))
-					builder.Append(letter);
-				else
-					builder.Append(' ');
-			}
-
-			return builder;
+			return new string(sentence
+			.Select(ch => (char.IsLetter(ch) || ch == '\'') ? ch : ' ').ToArray());
 		}
 	}
 }

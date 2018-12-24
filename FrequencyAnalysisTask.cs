@@ -56,16 +56,12 @@ namespace TextAnalysis
 
 		public static Dictionary<string, string> GetContinuationNgram(Dictionary<string, Dictionary<string, int>> frecuent)
 		{
-			var result = new Dictionary<string, string>();
-			foreach (var dict in frecuent)
-			{
-				var max = dict.Value.Max(s => s.Value);
-				result[dict.Key] = dict.Value
-					.Where(s => s.Value.Equals(max))
-					.Select(s => s.Key)
-					.OrderBy(s => s, StringComparer.Ordinal)
-					.First();
-			}
+			var result = frecuent.ToDictionary(
+				kvp => kvp.Key,
+				kvp => kvp.Value
+				.OrderByDescending(ikvp => ikvp.Value)
+				.ThenBy(ikvp => ikvp.Key, StringComparer.Ordinal)
+				.First().Key);
 			return result;
 		}
 	}

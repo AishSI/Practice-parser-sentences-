@@ -14,7 +14,8 @@ namespace TextAnalysis
 			{
 				if (nextWords.ContainsKey((intermediatePhrase.Count > 1
 					? intermediatePhrase.Last.Previous.Value
-					: "") + " " + intermediatePhrase.Last.Value))
+					: "")
+					+ " " + intermediatePhrase.Last.Value))
 					intermediatePhrase.AddLast(
 						nextWords[intermediatePhrase.Last.Previous.Value 
 						+ " " + intermediatePhrase.Last.Value]);
