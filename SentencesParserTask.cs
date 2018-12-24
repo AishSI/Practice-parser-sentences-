@@ -21,10 +21,12 @@ namespace TextAnalysis
 		{
 			var listListSentences = listSentences
 			.Select(sentences => SenteceToWords(sentences)
-			.Split(new char[] { ' ' })
-			.Select(tag => tag.Trim())
-			.Where(tag => !string.IsNullOrEmpty(tag))
-			.ToList()).ToList();
+				.Split(new char[] { ' ' })
+				.Select(tag => tag.Trim())
+				.Where(tag => !string.IsNullOrEmpty(tag))
+				.ToList())
+			.Where(words => words.Count > 0)
+			.ToList();
 			return listListSentences;
 		}
 
